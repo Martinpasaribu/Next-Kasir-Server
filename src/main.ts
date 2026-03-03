@@ -10,6 +10,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import mongoose from 'mongoose';
 import { json, urlencoded } from 'express';
 import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
+import cookieParser from 'cookie-parser';
 
 import * as moduleAlias from 'module-alias';
 import path from 'path';
@@ -33,6 +34,7 @@ async function bootstrap() {
   app.use(json({ limit: '10mb' }));
   app.use(urlencoded({ extended: true, limit: '10mb' }));
 
+  app.use(cookieParser());
   //  app.use(new RateLimitMiddleware().use);
 
   // 3. Validation Pipe
