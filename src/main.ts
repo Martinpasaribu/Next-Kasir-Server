@@ -12,12 +12,10 @@ import { json, urlencoded } from 'express';
 import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
 import cookieParser from 'cookie-parser';
 
-import * as moduleAlias from 'module-alias';
-import path from 'path';
+import 'module-alias/register';
+import * as dotenv from 'dotenv';
+dotenv.config()
 
-// Gunakan __dirname untuk memberitahu Node di mana posisi folder 'src' berada
-// Di Vercel/Production, __dirname biasanya menunjuk ke folder dist atau root build
-moduleAlias.addAlias('src', __dirname);
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
