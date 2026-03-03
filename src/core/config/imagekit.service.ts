@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import ImageKit from 'imagekit';
 
 // Karena import dari 'dist/libs/interfaces' sering bermasalah di TS, 
@@ -21,12 +22,23 @@ interface ImageKitResponse {
 @Injectable()
 export class ImageKitService {
   private imagekit: ImageKit;
+  private readonly logger = new Logger(ImageKitService.name);
 
-  constructor() {
+  constructor(private configService: ConfigService) {
+    const publicKey = this.configService.get<string>('IMAGEKIT_PUBLIC_KEY');
+    const privateKey = this.configService.get<string>('IMAGEKIT_PRIVATE_KEY');
+    const urlEndpoint = this.configService.get<string>('IMAGEKIT_URL_ENDPOINT');
+
+    // Cek ketersediaan variabel sebelum inisialisasi
+    if (!publicKey || !privateKey || !urlEndpoint) {
+      this.logger.error('❌ ImageKit Config is missing! Check Vercel Env Variables.');
+      throw new Error('ImageKit initialization failed: Missing credentials');
+    }
+
     this.imagekit = new ImageKit({
-      publicKey: process.env.IMAGEKIT_PUBLIC_KEY || '',
-      privateKey: process.env.IMAGEKIT_PRIVATE_KEY || '',
-      urlEndpoint: process.env.IMAGEKIT_URL_ENDPOINT || '',
+      publicKey,
+      privateKey,
+      urlEndpoint,
     });
   }
 
