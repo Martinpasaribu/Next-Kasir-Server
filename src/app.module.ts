@@ -26,7 +26,12 @@ import { CustomerModule } from './modules/customer/customer.module';
 @Module({
   imports: [
     // Global Config
-    ConfigModule.forRoot({ isGlobal: true,  cache: true }),
+    ConfigModule.forRoot(
+      { isGlobal: true,  
+        cache: true,
+        ignoreEnvFile: process.env.NODE_ENV === 'production',
+       }
+    ),
 
     // Multi-tenant Core
     DatabaseModule, // Ini yang menghandle MongooseModule.forRootAsync (Master)
