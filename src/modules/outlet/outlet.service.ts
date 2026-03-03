@@ -4,7 +4,7 @@ import { Connection, Model } from 'mongoose';
 import { Outlet, OutletSchema } from './schemas/outlet.schema';
 import { CreateOutletDto } from './dto/create-outlet.dto';
 import { UpdateOutletDto } from './dto/update-outlet.dto';
-import { generateOutletCode } from 'src/common/utils/generator/CODE_OUT';
+import { generateOutletCode } from '../../common/utils/generator/CODE_OUT';
 
 @Injectable()
 export class OutletService {
