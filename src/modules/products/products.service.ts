@@ -9,7 +9,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { generateProductSku } from '../../common/utils/generator/SKU';
 import { Category, CategorySchema } from '../categories/schemas/category.schema';
-import { BaseTenantService } from 'src/core/tenant/tenant.service';
+import { BaseTenantService } from '../../core/tenant/tenant.service';
 
 // ✅ Tambahkan Scope.REQUEST karena tenant connection bersifat request-based
 @Injectable({ scope: Scope.REQUEST })

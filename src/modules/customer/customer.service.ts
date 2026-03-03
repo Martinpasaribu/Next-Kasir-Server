@@ -6,7 +6,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { Connection } from 'mongoose';
 import { Customer, CustomerSchema } from './schemas/customer.schema';
 import { CreateCustomerDto } from './dto/create-customer.dto';
-import { BaseTenantService } from 'src/core/tenant/tenant.service'; // Sesuaikan path-nya
+import { BaseTenantService } from '../../core/tenant/tenant.service'; // Sesuaikan path-nya
 
 @Injectable()
 export class CustomerService extends BaseTenantService { // <--- Wajib extends ini

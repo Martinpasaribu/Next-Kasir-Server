@@ -7,7 +7,7 @@ import { Connection, Model, Types } from 'mongoose';
 import { StockLog, StockLogSchema } from './schemas/stock-log.schema';
 import { Product, ProductSchema } from '../products/schemas/product.schema';
 import { CreateStockLogDto } from './dto/create-stock-log.dto';
-import { BaseTenantService } from 'src/core/tenant/tenant.service';
+import { BaseTenantService } from '../../core/tenant/tenant.service';
 
 @Injectable()
 export class InventoryService extends BaseTenantService {

@@ -11,10 +11,10 @@ import { Connection, Model, Types } from 'mongoose';
 import { Transaction, TransactionSchema } from './schemas/transaction.schema';
 import { InventoryService } from '../inventory/inventory.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
-import { BaseTenantService } from 'src/core/tenant/tenant.service';
+import { BaseTenantService } from '../../core/tenant/tenant.service';
 import { CustomerService } from '../customer/customer.service';
 import { Customer, CustomerSchema } from '../customer/schemas/customer.schema';
-import { generateTRX } from 'src/common/utils/generator/TRX';
+import { generateTRX } from '../../common/utils/generator/TRX';
 
 
 @Injectable()
