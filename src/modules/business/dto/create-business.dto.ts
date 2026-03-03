@@ -9,7 +9,7 @@ import {
   ValidateNested 
 } from 'class-validator';
 import { Type } from 'class-transformer';
-import { MediaObjectDto } from 'src/modules/media/dto/create-media.dto';
+import { MediaObjectDto } from '../../media/dto/create-media.dto';
 
 export class CreateBusinessDto {
   @ApiProperty({ example: 'Kopi Kenangan Luar Biasa', description: 'Nama Brand/Perusahaan' })

@@ -1,7 +1,7 @@
 // src/modules/business/schemas/business.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { MediaObject, MediaObjectSchema } from 'src/modules/media/schema/media.schema';
+import { MediaObject, MediaObjectSchema } from '../../media/schema/media.schema';
 
 @Schema({ timestamps: true })
 export class Business extends Document {
