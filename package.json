@@ -6,7 +6,7 @@
   "private": true,
   "license": "UNLICENSED",
   "_moduleAliases": {
-    "src": "dist"
+    "src": "."
   },
   "scripts": {
     "build": "nest build",

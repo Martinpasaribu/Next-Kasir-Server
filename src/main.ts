@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable max-len */
 // src/main.ts
-import 'module-alias/register';
+
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
@@ -11,6 +11,12 @@ import mongoose from 'mongoose';
 import { json, urlencoded } from 'express';
 import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
 
+import * as moduleAlias from 'module-alias';
+import path from 'path';
+
+// Gunakan __dirname untuk memberitahu Node di mana posisi folder 'src' berada
+// Di Vercel/Production, __dirname biasanya menunjuk ke folder dist atau root build
+moduleAlias.addAlias('src', __dirname);
 
 async function bootstrap() {
   const logger = new Logger('Bootstrap');
