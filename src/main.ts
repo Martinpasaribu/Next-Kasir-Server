@@ -59,10 +59,12 @@ async function bootstrap() {
   mongoose.connection.on('connected', () => logger.log('✅ Master DB Connected'));
   mongoose.connection.on('error', (err) => logger.error(`❌ DB Error: ${err}`));
 
-  const port = process.env.PORT || 5003;
+  const port = process.env.PORT || 5010;
   await app.listen(port);
   logger.log(`🚀 Server running on http://localhost:${port}/api/v1`);
   logger.log(`📖 Swagger docs available at http://localhost:${port}/api-docs`);
+  logger.log(`Test ENV " ${process.env.IMAGEKIT_PUBLIC_KEY}`);
+
 }
 
 bootstrap();

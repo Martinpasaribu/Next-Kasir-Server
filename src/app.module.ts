@@ -51,6 +51,7 @@ export class AppModule implements OnApplicationBootstrap {
 
   constructor(@InjectConnection() private readonly connection: Connection) {}
 
+
   onApplicationBootstrap() {
     // Memberikan info database master yang terhubung saat start
     if (this.connection.readyState === 1) {
