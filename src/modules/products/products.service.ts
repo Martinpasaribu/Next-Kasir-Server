@@ -7,7 +7,7 @@ import { Connection } from 'mongoose';
 import { Product, ProductSchema } from './schemas/product.schema';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { generateProductSku } from 'src/common/utils/generator/SKU';
+import { generateProductSku } from '../../common/utils/generator/SKU';
 import { Category, CategorySchema } from '../categories/schemas/category.schema';
 import { BaseTenantService } from 'src/core/tenant/tenant.service';
 
