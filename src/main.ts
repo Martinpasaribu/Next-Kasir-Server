@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable max-len */
 // src/main.ts
+import 'module-alias/register';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
