@@ -3,13 +3,9 @@
   "builds": [
     {
       "src": "src/main.ts",
-      "use": "@vercel/node",
-      "config": {
-        "includeFiles": ["src/**/*.js", "src/**/*.json"]
-      }
+      "use": "@vercel/node"
     }
   ],
-
   "routes": [
     {
       "src": "/(.*)",
