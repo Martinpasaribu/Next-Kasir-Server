@@ -13,8 +13,6 @@ import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
 import cookieParser from 'cookie-parser';
 
 import 'module-alias/register';
-import * as dotenv from 'dotenv';
-dotenv.config()
 
 
 async function bootstrap() {
