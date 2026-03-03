@@ -6,7 +6,7 @@
 /* eslint-disable function-paren-newline */
 // src/modules/media/media.service.ts
 import { Injectable, BadRequestException } from '@nestjs/common';
-import { ImageKitService } from 'src/core/config/imagekit.service';
+import { ImageKitService } from '../../core/config/imagekit.service';
 
 // Kita definisikan interface agar TypeScript tidak bingung
 

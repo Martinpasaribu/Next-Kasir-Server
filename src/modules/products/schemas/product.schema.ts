@@ -1,7 +1,7 @@
 // src/modules/products/schemas/product.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
-import { MediaObject, MediaObjectSchema } from 'src/modules/media/schema/media.schema';
+import { MediaObject, MediaObjectSchema } from '../../media/schema/media.schema';
 
 @Schema({ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 export class Product extends Document {

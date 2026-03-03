@@ -4,7 +4,7 @@
 
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsOptional, IsNumber, IsBoolean, ValidateNested, IsObject } from 'class-validator';
-import { MediaObjectDto } from 'src/modules/media/dto/create-media.dto';
+import { MediaObjectDto } from '../../media/dto/create-media.dto';
 import { Type } from 'class-transformer';
 
 class LocationDto {

@@ -3,7 +3,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
-import { MediaObject, MediaObjectSchema } from 'src/modules/media/schema/media.schema';
+import { MediaObject, MediaObjectSchema } from '../../media/schema/media.schema';
 
 @Schema({ 
   timestamps: true, // Otomatis menambahkan 'createdAt' dan 'updatedAt'

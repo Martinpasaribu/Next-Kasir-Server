@@ -4,7 +4,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, IsBoolean, IsNumber, IsOptional, IsMongoId, IsArray, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
-import { MediaObjectDto } from 'src/modules/media/dto/create-media.dto';
+import { MediaObjectDto } from '../../media/dto/create-media.dto';
 
 export class CreateProductDto {
   @ApiProperty({ example: '658a99988877766655544433', description: 'ID Kategori' })
