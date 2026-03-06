@@ -19,6 +19,10 @@ export class Category extends Document {
   @ApiProperty({ example: 'minuman-dingin' })
   slug!: string; // SEO friendly URL atau identifier unik
 
+  @Prop({ required: false, trim: true })
+  @ApiProperty({ example: 'DRK' })
+  ref_code!: string; // SEO friendly URL atau identifier unik
+
   @Prop()
   @ApiProperty({ example: 'Kumpulan kategori minuman penyegar' })
   description!: string;

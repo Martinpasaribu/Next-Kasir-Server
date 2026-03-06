@@ -34,10 +34,22 @@ export class ProductsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Mengambil semua produk (mendukung filter & search)' })
-  findAll() {
+  @ApiOperation({ summary: 'Mengambil semua produk Cashier (mendukung filter & search)' })
+  async findAll() {
     // Anda bisa menambahkan @Query() jika ingin fitur search/filter di masa depan
-    return this.productsService.findAll();
+    const res = await this.productsService.findAllToCashier();
+    return {
+        status: true,
+        message: "data reschedule",
+        data: res
+    }
+  }
+
+  @Get('admin')
+  @ApiOperation({ summary: 'Mengambil semua produk Admin (mendukung filter & search)' })
+  findDataToAdmin() {
+    // Anda bisa menambahkan @Query() jika ingin fitur search/filter di masa depan
+    return this.productsService.findAllToAdmin();
   }
 
   @Get(':id')

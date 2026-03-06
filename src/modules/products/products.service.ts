@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
@@ -53,12 +54,38 @@ export class ProductsService extends BaseTenantService {
     return await createdProduct.save();
   }
 
-  async findAll() {
+  async findAllToAdmin() {
     return await this.productModel
       .find({ isDeleted: false })
       .populate('category_key')
       .sort({ createdAt: -1 })
       .exec();
+  }
+
+  async findAllToCashier() {
+    // Gunakan Promise.all agar pengambilan kategori dan produk berjalan bersamaan
+    // Ini akan membuat respon API jauh lebih cepat daripada menunggu satu per satu
+    const [category_option, product] = await Promise.all([
+      this.categoryModel
+        .find({ isDeleted: false, isActive: true })
+        .select('_id name ref_code')
+        .sort({ name: 1 })
+        .lean() // .lean() membuat query lebih ringan karena tidak mengubah hasil ke Mongoose Document
+        .exec(),
+
+      this.productModel
+        .find({ isDeleted: false, isActive: true })
+        .select('_id name sku sub_description category_key price_buy price_sell stock order min_stock_alert icon unit isActive recommend isDeleted createdAt updatedAt')
+        .populate('category_key', 'name ref_code') // Optimasi: hanya ambil field 'name' dari kategori
+        .sort({ createdAt: -1 })
+        .lean()
+        .exec()
+    ]);
+
+    return {
+        category_option,
+        product
+    };
   }
 
   async findOne(id: string) {
