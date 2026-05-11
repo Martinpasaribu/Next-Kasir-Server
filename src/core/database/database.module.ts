@@ -1,61 +1,86 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-// src/core/database/database.module.ts
+/* eslint-disable max-len */
+// /* eslint-disable @typescript-eslint/no-unsafe-assignment */
+// /* eslint-disable @typescript-eslint/no-unsafe-member-access */
+// /* eslint-disable @typescript-eslint/no-unused-vars */
+// // src/core/database/database.module.ts
 
-import { Global, Module, Scope } from '@nestjs/common';
-import { MongooseModule } from '@nestjs/mongoose';
-import { REQUEST } from '@nestjs/core';
-import { Connection, createConnection } from 'mongoose';
-import { ConfigService } from '@nestjs/config';
+// import { Global, Module, Scope, UnauthorizedException } from '@nestjs/common';
+// import { MongooseModule } from '@nestjs/mongoose';
+// import { REQUEST } from '@nestjs/core';
+// import { Connection, createConnection } from 'mongoose';
+// import { ConfigService } from '@nestjs/config';
+// import { TenantValidationService } from '../tenant/tenant.validation'; 
+// import { BusinessModule } from '@/modules/business/business.module';
+// import { Business, BusinessSchema } from '@/modules/business/schemas/business.schema';
 
-@Global()
-@Module({
-  imports: [
-    // 1. Koneksi ke Master Database (Daftar Bisnis)
-    // Mengambil MASTER_DB_URI dari .env
-    MongooseModule.forRootAsync({
-      useFactory: (config: ConfigService) => ({
-        uri: config.get<string>('MASTER_DB_URI'),
-      }),
-      inject: [ConfigService],
-    }),
-  ],
-  providers: [
-    {
-      /* 2. Dynamic Connection Provider
-         Menggunakan Scope.REQUEST agar koneksi dibuat ulang 
-         setiap kali ada request dengan tenant_id yang berbeda.
-      */
-      provide: 'TENANT_CONNECTION',
-      scope: Scope.REQUEST,
-      useFactory: async (request: any, config: ConfigService) => {
-        const tenantId = request.headers['x-tenant-id'];
+// @Global()
+// @Module({
+//   imports: [
+//     // 1. Koneksi ke Master Database
+//     MongooseModule.forRootAsync({
+//       useFactory: (config: ConfigService) => ({
+//         uri: config.get<string>('MASTER_DB_URI'),
+//       }),
+//       inject: [ConfigService],
+//     }),
+//     // Daftarkan Business Schema untuk keperluan validasi
+//     MongooseModule.forFeature([{ name: Business.name, schema: BusinessSchema }]),
+//     BusinessModule,
+//   ],
+//   providers: [
+//     TenantValidationService,
+//     {
+//       provide: 'TENANT_CONNECTION',
+//       scope: Scope.REQUEST,
+//       inject: [REQUEST, ConfigService, TenantValidationService],
+//       useFactory: async (
+//         request: any, 
+//         config: ConfigService, 
+//         tenantValidationService: TenantValidationService
+//       ) => {
+//         // Ambil input mentah (Bisa "nagatama.nextkasir.com" atau "nagatama")
+//         const rawTenantId = request.headers['x-tenant-id'] || request.query['tenantId'];
 
-        // Jika tidak ada header tenant, kita tidak bisa membuat koneksi dinamis
-        if (!tenantId) {
-          return null; 
-        }
+//         // Perbaikan: Pastikan nama variabel konsisten (rawTenantId)
+//         if (!rawTenantId || typeof rawTenantId !== 'string') {
+//           return null; 
+//         }
 
-        // Ambil base URI Atlas dari .env (tanpa nama database di ujungnya)
-        const baseUri = config.get<string>('TENANT_DB_BASE_URI');
+//         /**
+//          * 1. SANITASI INPUT
+//          * Memotong domain (.nextkasir.com) jika dikirim oleh Frontend
+//          */
+//         const slug = rawTenantId.split('.')[0];
+
+//         /**
+//          * 2. VALIDASI & MAPPING ID
+//          * Mencari data di Master DB dan mengambil tenant_id asli (tanpa titik)
+//          */
+//         const validation = await tenantValidationService.validateTenantStatus(slug);
+
+//         if (!validation.status || !validation.tenantId) {
+//           throw new UnauthorizedException(`Tenant '${slug}' tidak aktif atau tidak ditemukan.`);
+//         }
+
+//         const baseUri = config.get<string>('TENANT_DB_BASE_URI');
         
-        // Gabungkan Base URI + Nama Database Tenant + Options Atlas
-        // Hasilnya: mongodb+srv://user:pw@cluster.net/nama_tenant?retryWrites=true...
-        const tenantConnectionUri = `${baseUri}/${tenantId}?retryWrites=true&w=majority`;
+//         /**
+//          * 3. KONEKSI DINAMIS
+//          * Menggunakan tenantId hasil validasi (contoh: tenant_nagatama_a123)
+//          */
+//         const tenantConnectionUri = `${baseUri}/${validation.tenantId}?retryWrites=true&w=majority`;
 
-        try {
-          // Membuat koneksi ke database tenant secara on-the-fly
-          const connection = await createConnection(tenantConnectionUri).asPromise();
-          return connection;
-        } catch (error) {
-          console.error(`Gagal mengoneksikan ke database tenant: ${tenantId}`, error);
-          throw error;
-        }
-      },
-      inject: [REQUEST, ConfigService],
-    },
-  ],
-  exports: ['TENANT_CONNECTION'],
-})
-export class DatabaseModule {}
+//         try {
+//           const connection = await createConnection(tenantConnectionUri).asPromise();
+//           console.log(`[Multi-Tenant] 🚀 Connected to DB: ${validation.tenantId}`);
+//           return connection;
+//         } catch (error : any) {
+//           console.error(`[Multi-Tenant] ❌ Gagal konek ke: ${validation.tenantId}`, error.message);
+//           throw error;
+//         }
+//       },
+//     },
+//   ],
+//   exports: ['TENANT_CONNECTION', TenantValidationService],
+// })
+// export class DatabaseModule {}

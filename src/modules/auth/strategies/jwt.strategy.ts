@@ -1,28 +1,37 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/require-await */
 
-import { ExtractJwt, Strategy } from 'passport-jwt';
+// src/modules/auth/strategies/jwt.strategy.ts
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
-import { Injectable } from '@nestjs/common';
+import { ExtractJwt, Strategy } from 'passport-jwt';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
   constructor() {
     super({
+      // Ambil token dari Header Bearer atau sesuaikan jika Anda pakai Cookie
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: process.env.JWT_SECRET || 'MARI_BELAJAR_SUPER_SECRET_2026',
+      secretOrKey: process.env.JWT_SECRET || 'YOUR_SECRET_KEY', 
     });
   }
 
   async validate(payload: any) {
-    // Payload ini adalah isi dari token yang didecode
-    // Apa yang direturn di sini akan masuk ke req.user
+    // Data ini akan masuk ke req.user
+    // Sesuaikan dengan isi payload saat Anda melakukan sign di AuthService
+    if (!payload) {
+      throw new UnauthorizedException();
+    }
+    
     return { 
-      userId: payload.sub, 
+      id: payload.sub, 
       email: payload.email, 
-      role: payload.role 
+      role: payload.role,
+      tenantId: payload.tenantId 
     };
   }
 }

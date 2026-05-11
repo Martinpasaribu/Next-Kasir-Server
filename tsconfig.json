@@ -1,29 +1,27 @@
 {
   "compilerOptions": {
-    "types": ["node", "multer"],
     "module": "commonjs",
     "declaration": true,
-    "esModuleInterop": true,
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "target": "ES2023",
+    "target": "ES2021", // Gunakan ES2021 agar lebih stabil dengan Node v20/v22
     "sourceMap": true,
     "outDir": "./dist",
-
-    // "ignoreDeprecations": "6.0",
     "baseUrl": "./",
     "paths": {
-      "src/*": ["src/*"]
+      "@/*": ["src/*"] // Gunakan @ agar tidak bentrok dengan folder system
     },
-
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": true,
-    "forceConsistentCasingInFileNames": true,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "noFallthroughCasesInSwitch": false
-  }
+    "forceConsistentCasingInFileNames": false, // Matikan jika di Mac sering error case
+    "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
+    "types": ["node", "multer"]
+  },
+  "exclude": ["node_modules", "dist"] // Pastikan dist tidak di-scan ulang
 }

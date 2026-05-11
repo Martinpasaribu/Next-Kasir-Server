@@ -22,3 +22,25 @@ export async function generateProductSku(
   // Hasil Format: MAK-2602-0001
   return `${prefix}-${year}${month}${sequence}`;
 }
+
+
+export async function generateInventorySku(
+  productModel: any, 
+  categoryName: string = 'INV'
+): Promise<string> {
+  // 1. Ambil inisial kategori (3 huruf pertama)
+  const prefix = categoryName.substring(0, 3).toUpperCase().padEnd(3, 'X');
+
+  // 2. Ambil total dokumen untuk counter
+  // Kita gunakan countDocuments untuk mendapatkan angka urutan
+  const count = await productModel.countDocuments();
+  const sequence = (count + 1).toString().padStart(4, '0');
+
+  // 3. Ambil Tahun & Bulan (YYMM)
+  const now = new Date();
+  const year = now.getFullYear().toString().slice(-2); // 26
+  const month = (now.getMonth() + 1).toString().padStart(2, '0'); // 02
+
+  // Hasil Format: MAK-2602-0001
+  return `${prefix}-${year}${month}${sequence}`;
+}

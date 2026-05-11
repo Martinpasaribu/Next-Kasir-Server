@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 // src/modules/products/schemas/product.schema.ts
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
@@ -5,8 +6,25 @@ import { MediaObject, MediaObjectSchema } from '../../media/schema/media.schema'
 
 @Schema({ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 export class Product extends Document {
+
+  @Prop({ 
+    type: String, 
+    enum: ['SPT', 'FML', 'RML', 'SVS',''], // SELL_PRODUCTS', 'FINISH_MATERIAL', 'SERVICES', 'RAW_MATERIAL
+    default: 'SPT' 
+  })
+  type!: string;
+
   @Prop({ required: true, trim: true })
   name!: string;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'Supplier' }], default: [] })
+  supplier_id!: Types.ObjectId[];
+  
+  @Prop({ type: Types.ObjectId, ref: 'Outlet', required: true, index: true })
+  outlet_id!: Types.ObjectId;
+
+  @Prop({ type: Types.ObjectId, ref: 'Outlet', required: true, index: true })
+  recipe_id!: Types.ObjectId;
 
   @Prop({ required: true, unique: true }) // SKU atau Barcode
   sku!: string;
@@ -45,7 +63,7 @@ export class Product extends Document {
   @Prop({ type: [MediaObjectSchema], default: [] })
   images!: MediaObject[];
 
-  @Prop({ type: String, enum: ['pcs', 'kg', 'box', 'liter'], default: 'pcs' })
+  @Prop({ type: String, default: 'pcs' })
   unit!: string;
 
   @Prop({ default: true })

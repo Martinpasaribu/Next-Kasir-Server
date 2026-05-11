@@ -40,6 +40,7 @@ export class CreateOutletDto {
 
   @IsString()
   @IsNotEmpty()
+  @IsOptional()
   address!: string;
 
   @IsNumber()

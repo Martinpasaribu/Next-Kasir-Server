@@ -15,7 +15,7 @@ export class User extends Document {
 
   @Prop({ 
     type: String, 
-    enum: ['OWNER', 'MANAGER', 'CASHIER'], 
+    enum: ['OWNER', 'MANAGER','ASSISTANT','CASHIER'], 
     default: 'CASHIER' 
   })
   

@@ -70,6 +70,10 @@ class TransactionItemDto {
   @IsNotEmpty()
   name!: string;
 
+  @IsString()
+  @IsNotEmpty()
+  type!: string;
+
   @IsNumber()
   price!: number;
 

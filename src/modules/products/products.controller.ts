@@ -8,7 +8,8 @@ import {
   Patch, 
   Param, 
   Delete, 
-  Query 
+  Query, 
+  Put
 } from '@nestjs/common';
 import { ApiTags, ApiOperation, ApiHeader } from '@nestjs/swagger';
 import { ProductsService } from './products.service';
@@ -27,13 +28,13 @@ import { UpdateProductDto } from './dto/update-product.dto';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @Post()
+  @Post('admin')
   @ApiOperation({ summary: 'Membuat produk baru untuk tenant tertentu' })
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
 
-  @Get()
+  @Get('cashier')
   @ApiOperation({ summary: 'Mengambil semua produk Cashier (mendukung filter & search)' })
   async findAll() {
     // Anda bisa menambahkan @Query() jika ingin fitur search/filter di masa depan
@@ -51,6 +52,17 @@ export class ProductsController {
     // Anda bisa menambahkan @Query() jika ingin fitur search/filter di masa depan
     return this.productsService.findAllToAdmin();
   }
+
+  @Get('options')
+  async getOptions() {
+    return await this.productsService.findAllOptions();
+  }
+
+  @Get('options-non-recipe')
+  async getOptionsWithRecipe() {
+    return await this.productsService.findAllOptionsWithRecipes();
+  }
+
 
   @Get(':id')
   @ApiOperation({ summary: 'Mengambil detail satu produk' })
@@ -72,4 +84,22 @@ export class ProductsController {
     // Hapus tanda '+'
     return this.productsService.remove(id);
   }
+
+  @Put('restock-manual/:id/admin')
+  async handleManual(@Param('id') id: string, @Body() dto: any) {
+    return {
+      status: true,
+      message: 'STOCK Produk berhasil didaftarkan ke inventory outlet',
+      data: await this.productsService.manualAddStock(id, dto)
+    };
+  }
+
+  @Put('restock-supplier/:id/admin')
+  async handleSupplier(@Param('id') id: string, @Body() dto: any) {
+    return await this.productsService.restockFromSupplier(id, dto);
+  }
+  
+
+  
+
 }

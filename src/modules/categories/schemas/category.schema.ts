@@ -15,6 +15,9 @@ export class Category extends Document {
   @ApiProperty({ example: 'Minuman Dingin' })
   name!: string;
 
+  @Prop({ type: Types.ObjectId, ref: 'Outlet', required: true, index: true })
+  outlet_id!: Types.ObjectId;
+
   @Prop({ required: false, unique: true, trim: true })
   @ApiProperty({ example: 'minuman-dingin' })
   slug!: string; // SEO friendly URL atau identifier unik

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/unbound-method */
 /* eslint-disable max-len */
@@ -11,14 +12,23 @@ import mongoose from 'mongoose';
 import { json, urlencoded } from 'express';
 import { RateLimitMiddleware } from './common/middleware/rate-limit.middleware';
 import cookieParser from 'cookie-parser';
+import { MongoExceptionFilter } from './common/filters/mongo-exception.filter';
 
 async function bootstrap() {
-  const logger = new Logger('Bootstrap');
-  const app = await NestFactory.create(AppModule);
 
-  // 1. CORS Configuration
+  const logger = new Logger('Bootstrap');
+  
+  
+  console.log('--- 1. Memulai NestFactory.create ---');
+  // Jika stack di sini, berarti masalah ada di AppModule atau Koneksi DB
+  const app = await NestFactory.create(AppModule);
+  console.log('--- 2. NestFactory.create SELESAI ---');
+
+  // main.ts
+  app.useGlobalFilters(new MongoExceptionFilter());
+
   app.enableCors({
-    origin: ['http://localhost:3000', 'http://localhost:3001', 'http://localhost:3003', 'https://your-pos-app.com'],
+    origin: true, // mudahkan dulu untuk testing
     credentials: true,
   });
 

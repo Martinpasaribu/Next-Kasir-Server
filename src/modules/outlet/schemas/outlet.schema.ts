@@ -21,7 +21,7 @@ export class Outlet extends Document {
   @Prop({ required: true, unique: true })
   code!: string; // Contoh: "KM-001" untuk identitas internal
 
-  @Prop({ required: true })
+  @Prop({ required: false, trim: true })
   address!: string;
 
   @Prop()

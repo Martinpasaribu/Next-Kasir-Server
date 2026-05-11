@@ -3,8 +3,8 @@ import { CustomerService } from './customer.service';
 import { CustomerController } from './customer.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Transaction, TransactionSchema } from '../transactions/schemas/transaction.schema';
-import { InventoryModule } from '../inventory/inventory.module';
 import { Customer, CustomerSchema } from './schemas/customer.schema';
+import { MerchantInventoryModule } from '../merchant-inventory/merchant-inventory.module';
 
 @Module({
 
@@ -14,7 +14,7 @@ import { Customer, CustomerSchema } from './schemas/customer.schema';
       { name: Transaction.name, schema: TransactionSchema },
       { name: Customer.name, schema: CustomerSchema }
     ]),
-    InventoryModule,
+    MerchantInventoryModule,
   ],
 
   controllers: [CustomerController],

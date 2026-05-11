@@ -9,20 +9,22 @@
 import { Injectable, Inject, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { Connection, Model, Types } from 'mongoose';
 import { Transaction, TransactionSchema } from './schemas/transaction.schema';
-import { InventoryService } from '../inventory/inventory.service';
 import { CreateTransactionDto } from './dto/create-transaction.dto';
 import { BaseTenantService } from '../../core/tenant/tenant.service';
 import { CustomerService } from '../customer/customer.service';
 import { Customer, CustomerSchema } from '../customer/schemas/customer.schema';
 import { generateTRX } from '../../common/utils/generator/TRX';
+import { MerchantInventoryService } from '../merchant-inventory/merchant-inventory.service';
+import { MerchantLogsService } from '../merchant-log/merchant-log.service';
 
 
 @Injectable()
 export class TransactionsService extends BaseTenantService  {
   constructor(
     @Inject('TENANT_CONNECTION') connection: Connection,
-    private readonly inventoryService: InventoryService, // Inject InventoryService untuk update stok
+    private readonly inventoryService: MerchantInventoryService, // Inject InventoryService untuk update stok
     private readonly customerService: CustomerService,
+    private readonly journalService: MerchantLogsService,
   ) {
     // ✅ Teruskan koneksi ke parent (BaseTenantService)
     super(connection);
@@ -109,17 +111,27 @@ export class TransactionsService extends BaseTenantService  {
         customer_key: finalCustomerKey,
       });
       
+      // Catat LOG ✔
+      await this.journalService.recordEntryTransaction({
+        domain: 'TRX',
+        action_type: transactionStatus === 'PAID' ? 'SALE' : 'CANCEL',
+        reference_id: finalTrxId, 
+        quantity: Number(product_key.length),
+        total_value: totalPaid, 
+        note: dto.note || (product_key.length > 0 ? 'Penambahan manual' : 'Adjustment keluar')
+      });
+
       const savedTransaction = await transaction.save({ session });
 
       // 4. POTONG STOK & CATAT LOG
       for (const item of product_key) {
         await this.inventoryService.updateStock({
           product_id: item.product_id,
-          outlet_id: outlet_id,
+          type: (item?.type as 'SPT' | 'FML' | 'RML' | 'SVC' | '') || '',
+          outlet_id: outlet_id ,
           amount: item.qty, // Angka positif karena dikurangi di dalam service inventory
-          type: 'SALE',
           reason: `Penjualan ${transaction.trx_id}`,
-        }, userId); 
+        }, userId, session); 
         // Note: Pastikan inventoryService.updateStock juga mendukung session jika ingin full-rollback
       }
 
