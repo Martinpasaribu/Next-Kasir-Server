@@ -12,7 +12,7 @@ import * as bcrypt from 'bcrypt';
 import { MerchantUser, MerchantUserSchema } from './schemas/merchant-user.schema';
 import { CreateMerchantUserDto } from './dto/create-merchant-user.dto';
 import { UpdateMerchantUserDto } from './dto/update-merchant-user.dto';
-import { BaseTenantService } from '@/core/tenant/tenant.service';
+import { BaseTenantService } from '../../core/tenant/tenant.service';
 
 @Injectable({ scope: Scope.REQUEST }) // Memastikan data antar toko tidak tertukar saat diakses bersamaan.
 export class MerchantUserService extends BaseTenantService {

@@ -11,12 +11,12 @@ import { REQUEST } from '@nestjs/core';
 import { Request as ExpressRequest } from 'express';
 import { Injectable, Inject, Scope, BadRequestException, InternalServerErrorException } from '@nestjs/common';
 import { Connection, Types } from 'mongoose';
-import { BaseTenantService } from '@/core/tenant/tenant.service';
+import { BaseTenantService } from '../../core/tenant/tenant.service';
 
 import { GeminiStrategy } from './strategies/gemini.strategy';
 import { ClaudeStrategy } from './strategies/claude.strategy';
 import { GrokStrategy } from './strategies/grok.strategy';
-import { RedisService } from '@/core/config/redis/redis.service';
+import { RedisService } from '../../core/config/redis/redis.service';
 import { SourceLibrary } from './library/source.library';
 import { BUSINESS_KNOWLEDGE } from './library/business-library';
 

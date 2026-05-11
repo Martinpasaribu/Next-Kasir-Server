@@ -11,7 +11,6 @@ import { Injectable, Inject, Scope, BadRequestException } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request as ExpressRequest } from 'express';
 import { Connection, Types } from 'mongoose';
-import { BaseTenantService } from '@/core/tenant/tenant.service';
 
 // Import All Schemas
 import { Inventory, InventorySchema } from '../../merchant-inventory/schemas/inventory.schema';
@@ -19,8 +18,9 @@ import { Product, ProductSchema } from '../../products/schemas/product.schema';
 import { Transaction, TransactionSchema } from '../../transactions/schemas/transaction.schema';
 import { Recipe, RecipeSchema } from '../../merchant-inventory/schemas/recipe.schema';
 import { LogInventory, MerchantLogInventorySchema } from '../../merchant-log/schemas/merchant-log-inventory.schema';
-import { Supplier, SupplierSchema } from '@/modules/merchant-supplier/schemas/supplier.schema';
-import { MerchantUser, MerchantUserSchema } from '@/modules/merchant-user/schemas/merchant-user.schema';
+import { Supplier, SupplierSchema } from '../../merchant-supplier/schemas/supplier.schema';
+import { MerchantUser, MerchantUserSchema } from '../../merchant-user/schemas/merchant-user.schema';
+import { BaseTenantService } from '../../../core/tenant/tenant.service';
 
 @Injectable({ scope: Scope.REQUEST })
 export class SourceLibrary extends BaseTenantService {

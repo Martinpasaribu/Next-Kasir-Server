@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // src/common/guards/roles.guard.ts
-import { ROLES_KEY } from '@/common/decorators/roles.decorator';
+import { ROLES_KEY } from '../../../common/decorators/roles.decorator';
 import { Injectable, CanActivate, ExecutionContext, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 

@@ -6,7 +6,7 @@
 import { Connection, Model } from 'mongoose';
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
-import { Business } from '@/modules/business/schemas/business.schema';
+import { Business } from '../../modules/business/schemas/business.schema';
 
 @Injectable()
 export class TenantValidationService {

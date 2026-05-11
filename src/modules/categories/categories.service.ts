@@ -8,7 +8,7 @@ import { Request as ExpressRequest } from 'express';
 import { Category, CategorySchema } from './schemas/category.schema';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
-import { BaseTenantService } from '@/core/tenant/tenant.service';
+import { BaseTenantService } from '../../core/tenant/tenant.service';
 import { slugify } from '../../common/utils/generator/SLUG';
 
 @Injectable({ scope: Scope.REQUEST })

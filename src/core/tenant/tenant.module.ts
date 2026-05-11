@@ -10,7 +10,7 @@ import { Request } from 'express';
 import { BusinessModule } from '../../modules/business/business.module'; 
 import { TenantValidationService } from './tenant.validation';
 import { BusinessService } from '../../modules/business/business.service';
-import { Business, BusinessSchema } from '@/modules/business/schemas/business.schema';
+import { Business, BusinessSchema } from '../../modules/business/schemas/business.schema';
 
 @Global()
 @Module({

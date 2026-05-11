@@ -7,7 +7,7 @@
 import { Injectable, Inject, Scope } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Connection, Model } from 'mongoose';
-import { BaseTenantService } from '@/core/tenant/tenant.service';
+import { BaseTenantService } from '../../core/tenant/tenant.service';
 import { Product, ProductSchema } from '../products/schemas/product.schema';
 import { Transaction, TransactionSchema } from '../transactions/schemas/transaction.schema';
 import { Request as ExpressRequest } from 'express';

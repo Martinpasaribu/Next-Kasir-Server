@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 import type { Response } from 'express';
 import { ApiTags, ApiHeader, ApiOperation, ApiBody } from '@nestjs/swagger';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
-import { Roles } from '@/common/decorators/roles.decorator';
+import { Roles } from '../../common/decorators/roles.decorator';
 import { RolesGuard } from './guards/auth.guard';
 
 @ApiTags('Authentication')
