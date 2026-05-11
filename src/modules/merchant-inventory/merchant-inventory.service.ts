@@ -14,7 +14,7 @@ import { BaseTenantService } from '../../core/tenant/tenant.service';
 import { InventoryLog, InventoryLogSchema } from './schemas/inventory-log.schema';
 import { Recipe, RecipeSchema } from './schemas/recipe.schema';
 import { Inventory, InventorySchema } from './schemas/inventory.schema';
-import { generateInventorySku } from '@/common/utils/generator/SKU';
+import { generateInventorySku } from '../../common/utils/generator/SKU';
 import { MediaObject } from '../media/schema/media.schema';
 import { MerchantLogsService } from '../merchant-log/merchant-log.service';
 import { Product, ProductSchema } from '../products/schemas/product.schema';

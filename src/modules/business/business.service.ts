@@ -11,9 +11,9 @@ import { CreateBusinessDto } from './dto/create-business.dto';
 import { UpdateBusinessDto } from './dto/update-business.dto';
 import { MerchantUserSchema } from '../merchant-user/schemas/merchant-user.schema';
 import * as bcrypt from 'bcrypt';
-import { generateSafeTenantId } from '@/common/utils/generator/TENANT_ID';
+import { generateSafeTenantId } from '../../common/utils/generator/TENANT_ID';
 import { OutletSchema } from '../outlet/schemas/outlet.schema';
-import { generateOutletCode } from '@/common/utils/generator/CODE_OUT';
+import { generateOutletCode } from '../../common/utils/generator/CODE_OUT';
 
 @Injectable()
 export class BusinessService {

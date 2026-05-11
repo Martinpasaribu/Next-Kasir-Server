@@ -13,7 +13,7 @@ import { Category, CategorySchema } from '../categories/schemas/category.schema'
 import { BaseTenantService } from '../../core/tenant/tenant.service';
 import { REQUEST } from '@nestjs/core';
 import { Request as ExpressRequest } from 'express';
-import { slugify } from '@/common/utils/generator/SLUG';
+import { slugify } from '../../common/utils/generator/SLUG';
 import { Connection, Model, Types } from 'mongoose';
 import { MerchantLogsService } from '../merchant-log/merchant-log.service';
 
