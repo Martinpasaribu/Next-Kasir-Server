@@ -23,6 +23,21 @@ interface ReceiptSettings {
   auto_print: boolean;
   auto_save_print: boolean;
 }
+interface ReceiptSummarySettings {
+  logo: ReceiptField;
+  name: ReceiptField;
+  address: ReceiptField;
+  phone: ReceiptField;
+  footer_note: ReceiptField;
+  tax_percentage: ReceiptField; 
+  header_one: ReceiptField; 
+  header_two: ReceiptField; 
+  header_three: ReceiptField; 
+  show_time: boolean;
+  summary_groups: any[];
+  auto_print: boolean;
+  auto_save_print: boolean;
+}
 
 // Tambahan: Interface untuk Pajak Global
 interface GlobalTaxSettings {
@@ -64,6 +79,9 @@ export class Settings extends Document {
 
   @Prop({ type: Object })
   settings_receipt!: ReceiptSettings; 
+
+  @Prop({ type: Object })
+  settings_receipt_summary!: ReceiptSummarySettings; 
 
   @Prop({ type: Object })
   metadata!: Record<string, any>; 

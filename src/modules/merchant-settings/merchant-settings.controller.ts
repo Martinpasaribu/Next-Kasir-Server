@@ -11,6 +11,25 @@ import { MerchantSettingsService } from './merchant-settings.service';
 export class MerchantSettingsController {
   constructor(private readonly merchantSettingsService: MerchantSettingsService) {}
 
+
+  /* --- Tambahan jika ingin mengambil Receipt secara eksplisit --- */
+  @Get('receipt')
+  async getReceiptConfig() {
+    return await this.merchantSettingsService.getSettingsStruct();
+  }
+
+  /* --- Tambahan jika ingin mengambil Receipt secara eksplisit --- */
+  @Get('receipt-summary')
+  async getReceiptSummaryConfig() {
+    const result =  await this.merchantSettingsService.getSettingsStructSummary();
+
+    return {
+      status : true,
+      message: "berhasil Mengambil summary Struct",
+      data: result
+    }
+  }
+
   /**
    * Mengambil settingan berdasarkan domain secara dinamis (GLOBAL, RECEIPT, PRODUCT, dll)
    * GET: /merchant-settings/domain/RECEIPT
@@ -24,12 +43,31 @@ export class MerchantSettingsController {
    * Endpoint Khusus Update Konfigurasi Struk
    * PATCH: /merchant-settings/receipt
    */
+
   @Patch('receipt/:domain')
   async updateReceipt(@Body() body: any) {
     // Pastikan kita hanya mengambil objek settings_receipt jika dikirim dalam wrapper
     const data = body.settings_receipt ? body.settings_receipt : body;
     return await this.merchantSettingsService.UpdateStructSetting(data);
   }
+
+  /**
+   * Endpoint Khusus Update Konfigurasi Struk summary
+   * PATCH: /merchant-settings/receipt-summary
+   */
+
+  @Patch('receipt-summary/:domain')
+  async updateReceiptSummary(@Body() body: any) {
+    // Pastikan kita hanya mengambil objek settings_receipt jika dikirim dalam wrapper
+    const data = body.settings_receipt_summary ? body.settings_receipt_summary : body;
+    const result =  await this.merchantSettingsService.UpdateStructSummarySetting(data);
+
+    return {
+      status : true,
+      message: "berhasil update summary Struct",
+      data: result,
+    }
+  }k
 
 
   /**
@@ -63,9 +101,5 @@ export class MerchantSettingsController {
     return await this.merchantSettingsService.UpdateSetting(body);
   }
 
-  /* --- Tambahan jika ingin mengambil Receipt secara eksplisit --- */
-  @Get('receipt')
-  async getReceiptConfig() {
-    return await this.merchantSettingsService.getSettingsStruct();
-  }
+
 }

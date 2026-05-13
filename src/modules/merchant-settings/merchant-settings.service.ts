@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable no-constant-binary-expression */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
@@ -51,6 +52,19 @@ export class MerchantSettingsService extends BaseTenantService {
   }
 
   /**
+   * Mengambil settingan struct 
+  */
+
+  async getSettingsStructSummary(): Promise<any> { // <--- Tambahkan : Promise<any>
+    const result = await this.settingsModel.findOne({
+      outlet_id: this.currentOutletId,
+      isDeleted: false,
+    });
+
+    return result?.settings_receipt_summary || null;
+  }
+
+  /**
    * Update Global (Theme/Tax) - Tetap pakai domain GLOBAL agar tidak campur
    */
   async UpdateGlobalSetting(data: any) {
@@ -97,6 +111,35 @@ export class MerchantSettingsService extends BaseTenantService {
       );
     } catch (error: any) {
       throw new BadRequestException('Gagal update receipt setting');
+    }
+  }
+
+
+  /**
+   * Update Struk - Tetap pakai domain RECEIPT
+   */
+  async UpdateStructSummarySetting(settings_receipt_summary: any) {
+    try {
+      const oId = this.currentOutletId;
+      if (!oId) throw new Error('Outlet ID is required');
+
+      const data = await this.settingsModel.findOneAndUpdate(
+        { outlet_id: oId },
+        { 
+          $set: { 
+            settings_receipt_summary, // shorthand jika nama variabel sama
+            isDeleted: false,
+            updatedAt: new Date() // disarankan menambah ini
+          } 
+        },
+        { upsert: true, new: true, runValidators: true } // runValidators memastikan input sesuai skema
+      );
+
+      return data || null;
+      
+    } catch (error: any) {
+      console.error(error);
+      throw new BadRequestException('Gagal update: ' + error.message);
     }
   }
 
