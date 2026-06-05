@@ -12,6 +12,12 @@ export class CreateProductDto {
   @IsNotEmpty()
   category_key!: string;
 
+
+  @ApiProperty({ example: 'SPT' })
+  @IsString()
+  @IsOptional()
+  type?: string;
+
   @ApiProperty({ example: 'Nasi Goreng Spesial' })
   @IsString()
   @IsNotEmpty()

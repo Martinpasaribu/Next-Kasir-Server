@@ -6,12 +6,14 @@ import { createCache } from 'cache-manager';
 import { RedisService } from './redis.service';
 
 @Global()
+
 @Module({
   providers: [
     {
       provide: 'REDIS_CACHE',
       useFactory: async () => {
         try {
+          
           const store = await redisStore({
             socket: {
               host: process.env.REDIS_HOST,

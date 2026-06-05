@@ -185,8 +185,9 @@ export class ProductsService extends BaseTenantService {
     return await this.productModel
       .find({ 
         ...this.outletFilter, 
+        type: { $in: ['FML', 'FML'] }, 
         isActive: true,
-        recipe_id:  null 
+        // recipe_id: { $ne: null, $not: { $size: 0 } } // Jika recipe_id berupa Array
       })
       .select('_id name') 
       .sort({ name: 1 }) 

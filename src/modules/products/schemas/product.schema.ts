@@ -7,9 +7,15 @@ import { MediaObject, MediaObjectSchema } from '../../media/schema/media.schema'
 @Schema({ timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } })
 export class Product extends Document {
 
+
+  // 'FML' Produk yang stoknya bergantung 100% pada resep (BOM)
+  // 'SPT' Produk jadi/retail - stok ada di koleksi Product
+  // 'RML' Bahan baku yang bisa dijual langsung - stok ada di koleksi Inventory
+  // 'SVS' Jasa/layanan yang tidak memiliki stok fisik
+
   @Prop({ 
     type: String, 
-    enum: ['SPT', 'FML', 'RML', 'SVS',''], // SELL_PRODUCTS', 'FINISH_MATERIAL', 'SERVICES', 'RAW_MATERIAL
+    enum: ['SPT', 'FML', '`RML', 'SVS',''], // SELL_PRODUCTS', 'FINISH_MATERIAL', 'SERVICES', 'RAW_MATERIAL
     default: 'SPT' 
   })
   type!: string;
@@ -23,7 +29,7 @@ export class Product extends Document {
   @Prop({ type: Types.ObjectId, ref: 'Outlet', required: true, index: true })
   outlet_id!: Types.ObjectId;
 
-  @Prop({ type: Types.ObjectId, ref: 'Outlet', required: true, index: true })
+  @Prop({ type: Types.ObjectId, ref: 'Outlet', required: false, index: true, default: [] })
   recipe_id!: Types.ObjectId;
 
   @Prop({ required: true, unique: true }) // SKU atau Barcode

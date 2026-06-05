@@ -34,7 +34,7 @@ export class CategoriesController {
     return this.categoriesService.findOne(id);
   }
 
-  @Patch(':id')
+  @Patch('admin/:id')
   @HttpCode(200) // Memastikan status code 200, bukan 204
   @ApiOperation({ summary: 'Update kategori' })
   async update(@Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto) {
@@ -46,7 +46,7 @@ export class CategoriesController {
     };
   }
 
-  @Delete(':id')
+  @Delete('admin/:id')
   @ApiOperation({ summary: 'Hapus kategori (Soft Delete)' })
   remove(@Param('id') id: string) {
     return this.categoriesService.remove(id);
